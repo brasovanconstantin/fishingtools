@@ -117,7 +117,7 @@ public class FishingRods {
 				+ ", price=" + price + ", availableInStock=" + availableInStock + "]";
 	}
 
-	
+	// this text was added by other user
 	
 
 }
