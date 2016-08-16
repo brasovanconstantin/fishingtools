@@ -2,6 +2,12 @@ package fishingtools.domain;
 
 import java.util.Date;
 
+/**
+ * This class represents a Fishing rod object
+ * @author Brasovan Constantin
+ *
+ */
+
 public class FishingRods {
 	
 	private Long id;
