@@ -1,103 +1,103 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fishingRodsXmlHelper>
     <rodsList>
-        <availableInStock>826215176</availableInStock>
-        <dateOfManufacture>2016-08-25T09:58:14.492+03:00</dateOfManufacture>
-        <lenght>0.20773923701466435</lenght>
-        <material>material: -1798449856</material>
+        <availableInStock>861062548</availableInStock>
+        <dateOfManufacture>2016-08-08T19:46:48.601+03:00</dateOfManufacture>
+        <lenght>0.8823702155193737</lenght>
+        <material>material: 1335982179</material>
+        <numberOfPieces>3</numberOfPieces>
+        <power>LIGHT</power>
+        <price>366.3</price>
+        <type>type: 284020186</type>
+    </rodsList>
+    <rodsList>
+        <availableInStock>-701558424</availableInStock>
+        <dateOfManufacture>2016-10-26T19:46:48.601+03:00</dateOfManufacture>
+        <lenght>0.1668907897899734</lenght>
+        <material>material: 9717665</material>
+        <numberOfPieces>1</numberOfPieces>
+        <power>MEDIUM</power>
+        <price>458.72</price>
+        <type>type: 25845739</type>
+    </rodsList>
+    <rodsList>
+        <availableInStock>1991551737</availableInStock>
+        <dateOfManufacture>2016-07-08T19:46:48.602+03:00</dateOfManufacture>
+        <lenght>0.8848894524850738</lenght>
+        <material>material: 1639918905</material>
+        <numberOfPieces>4</numberOfPieces>
+        <power>LIGHT</power>
+        <price>346.61</price>
+        <type>type: -1960006311</type>
+    </rodsList>
+    <rodsList>
+        <availableInStock>514216988</availableInStock>
+        <dateOfManufacture>2016-01-20T19:46:48.602+02:00</dateOfManufacture>
+        <lenght>0.32096850546425426</lenght>
+        <material>material: 2071414072</material>
+        <numberOfPieces>2</numberOfPieces>
+        <power>LIGHT</power>
+        <price>235.52</price>
+        <type>type: -1921328668</type>
+    </rodsList>
+    <rodsList>
+        <availableInStock>1278501541</availableInStock>
+        <dateOfManufacture>2016-05-23T19:46:48.602+03:00</dateOfManufacture>
+        <lenght>0.1781708354353907</lenght>
+        <material>material: 998236528</material>
+        <numberOfPieces>2</numberOfPieces>
+        <power>HEAVY</power>
+        <price>429.68</price>
+        <type>type: -895787370</type>
+    </rodsList>
+    <rodsList>
+        <availableInStock>-210886971</availableInStock>
+        <dateOfManufacture>2016-03-22T19:46:48.602+02:00</dateOfManufacture>
+        <lenght>0.5904645520328267</lenght>
+        <material>material: -2041721972</material>
         <numberOfPieces>1</numberOfPieces>
         <power>ULTRA_HEAVY</power>
-        <price>348.92</price>
-        <type>type: -1577802935</type>
+        <price>494.06</price>
+        <type>type: 288806237</type>
     </rodsList>
     <rodsList>
-        <availableInStock>-608544008</availableInStock>
-        <dateOfManufacture>2016-09-02T09:58:14.493+03:00</dateOfManufacture>
-        <lenght>0.7830396759273232</lenght>
-        <material>material: -477969482</material>
-        <numberOfPieces>5</numberOfPieces>
+        <availableInStock>-118613904</availableInStock>
+        <dateOfManufacture>2016-06-21T19:46:48.602+03:00</dateOfManufacture>
+        <lenght>0.5976127302083457</lenght>
+        <material>material: 1904772116</material>
+        <numberOfPieces>3</numberOfPieces>
         <power>LIGHT</power>
-        <price>338.66</price>
-        <type>type: -1058755246</type>
+        <price>325.33</price>
+        <type>type: 1570821684</type>
     </rodsList>
     <rodsList>
-        <availableInStock>-1860252555</availableInStock>
-        <dateOfManufacture>2016-11-23T09:58:14.493+02:00</dateOfManufacture>
-        <lenght>0.991206601128084</lenght>
-        <material>material: -745766209</material>
-        <numberOfPieces>3</numberOfPieces>
-        <power>HEAVY</power>
-        <price>402.2</price>
-        <type>type: -1958753597</type>
-    </rodsList>
-    <rodsList>
-        <availableInStock>-1963854629</availableInStock>
-        <dateOfManufacture>2016-11-21T09:58:14.493+02:00</dateOfManufacture>
-        <lenght>0.9823821266748143</lenght>
-        <material>material: 277948621</material>
+        <availableInStock>954770779</availableInStock>
+        <dateOfManufacture>2016-05-16T19:46:48.602+03:00</dateOfManufacture>
+        <lenght>0.3809220451121883</lenght>
+        <material>material: -2103101357</material>
         <numberOfPieces>2</numberOfPieces>
-        <power>HEAVY</power>
-        <price>285.16</price>
-        <type>type: 65071175</type>
-    </rodsList>
-    <rodsList>
-        <availableInStock>886104416</availableInStock>
-        <dateOfManufacture>2016-06-16T09:58:14.493+03:00</dateOfManufacture>
-        <lenght>0.13393576672971974</lenght>
-        <material>material: -715089490</material>
-        <numberOfPieces>5</numberOfPieces>
-        <power>HEAVY</power>
-        <price>135.88</price>
-        <type>type: -1976132426</type>
-    </rodsList>
-    <rodsList>
-        <availableInStock>2086459933</availableInStock>
-        <dateOfManufacture>2016-03-12T09:58:14.493+02:00</dateOfManufacture>
-        <lenght>0.34910540026844294</lenght>
-        <material>material: -1376123056</material>
-        <numberOfPieces>5</numberOfPieces>
-        <power>ULTRA_HEAVY</power>
-        <price>55.93</price>
-        <type>type: -567105392</type>
-    </rodsList>
-    <rodsList>
-        <availableInStock>-1410435689</availableInStock>
-        <dateOfManufacture>2016-06-10T09:58:14.493+03:00</dateOfManufacture>
-        <lenght>0.9780133872995738</lenght>
-        <material>material: 1729668005</material>
-        <numberOfPieces>4</numberOfPieces>
-        <power>ULTRA_HEAVY</power>
-        <price>130.09</price>
-        <type>type: 1686682459</type>
-    </rodsList>
-    <rodsList>
-        <availableInStock>1962874671</availableInStock>
-        <dateOfManufacture>2016-11-06T09:58:14.494+02:00</dateOfManufacture>
-        <lenght>0.5765718686660269</lenght>
-        <material>material: 806092341</material>
-        <numberOfPieces>4</numberOfPieces>
         <power>MEDIUM</power>
-        <price>367.55</price>
-        <type>type: -347293661</type>
+        <price>54.37</price>
+        <type>type: 76235929</type>
     </rodsList>
     <rodsList>
-        <availableInStock>-338554338</availableInStock>
-        <dateOfManufacture>2016-12-23T09:58:14.494+02:00</dateOfManufacture>
-        <lenght>0.003953311279100813</lenght>
-        <material>material: -133359369</material>
-        <numberOfPieces>3</numberOfPieces>
-        <power>HEAVY</power>
-        <price>132.13</price>
-        <type>type: -916966846</type>
-    </rodsList>
-    <rodsList>
-        <availableInStock>-727230899</availableInStock>
-        <dateOfManufacture>2016-06-03T09:58:14.494+03:00</dateOfManufacture>
-        <lenght>0.12491103952777038</lenght>
-        <material>material: 895149394</material>
-        <numberOfPieces>2</numberOfPieces>
+        <availableInStock>1350295906</availableInStock>
+        <dateOfManufacture>2016-01-09T19:46:48.602+02:00</dateOfManufacture>
+        <lenght>0.4275537597088357</lenght>
+        <material>material: 849970296</material>
+        <numberOfPieces>1</numberOfPieces>
         <power>ULTRA_HEAVY</power>
-        <price>443.38</price>
-        <type>type: 182949619</type>
+        <price>414.54</price>
+        <type>type: 1596612564</type>
+    </rodsList>
+    <rodsList>
+        <availableInStock>1749680804</availableInStock>
+        <dateOfManufacture>2016-11-13T19:46:48.602+02:00</dateOfManufacture>
+        <lenght>0.7444886239958549</lenght>
+        <material>material: -487007262</material>
+        <numberOfPieces>4</numberOfPieces>
+        <power>ULTRA_HEAVY</power>
+        <price>118.96</price>
+        <type>type: 735043276</type>
     </rodsList>
 </fishingRodsXmlHelper>

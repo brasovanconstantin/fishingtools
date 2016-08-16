@@ -14,18 +14,24 @@ import fishingtools.services.FileService;
 import fishingtools.util.DemoData;
 
 public class ExcelFileServiceTest {
-	
+
 	FileService fs = new ExcelFileService();
 	private final String PATH = "rods.xls";
 	final int TOTAL_DEMO_RODS = 10;
-	
-@Test
-	
+
+	@Test
+
 	public void prepare() throws Exception {
 		List<FishingRods> rodsList = DemoData.getDemoRods(TOTAL_DEMO_RODS);
 		fs.saveAll(rodsList, PATH);
 	}
 
-
+	@Test
+	public void readAllTest() throws Exception {
+		List<FishingRods> rodsList = fs.readAll(PATH);
+		assertNotNull(rodsList);
+		assertFalse(rodsList.isEmpty());
+		assertEquals(TOTAL_DEMO_RODS, rodsList.size());
+	}
 
 }
