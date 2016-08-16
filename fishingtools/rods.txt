@@ -1,0 +1,102 @@
+[
+  {
+    "type": "type: 1666365780",
+    "lenght": 0.03406401168219653,
+    "power": "LIGHT",
+    "material": "material: -38051665",
+    "numberOfPieces": 5,
+    "dateOfManufacture": "Jul 14, 2016 9:48:46 AM",
+    "price": 206.34,
+    "availableInStock": 1848332026
+  },
+  {
+    "type": "type: 1440286773",
+    "lenght": 0.34104421565847,
+    "power": "ULTRA_HEAVY",
+    "material": "material: 1131436591",
+    "numberOfPieces": 4,
+    "dateOfManufacture": "Dec 23, 2016 9:48:46 AM",
+    "price": 295.52,
+    "availableInStock": 521508077
+  },
+  {
+    "type": "type: -1837461002",
+    "lenght": 0.07323522534932891,
+    "power": "ULTRA_HEAVY",
+    "material": "material: 887022202",
+    "numberOfPieces": 3,
+    "dateOfManufacture": "Mar 21, 2016 9:48:46 AM",
+    "price": 317.39,
+    "availableInStock": 1444548010
+  },
+  {
+    "type": "type: -1802161598",
+    "lenght": 0.3875026677217682,
+    "power": "LIGHT",
+    "material": "material: -1699379955",
+    "numberOfPieces": 1,
+    "dateOfManufacture": "Dec 29, 2016 9:48:46 AM",
+    "price": 128.19,
+    "availableInStock": -1644186121
+  },
+  {
+    "type": "type: 840265045",
+    "lenght": 0.7746504800871744,
+    "power": "ULTRA_HEAVY",
+    "material": "material: 917919515",
+    "numberOfPieces": 5,
+    "dateOfManufacture": "Apr 18, 2016 9:48:46 AM",
+    "price": 345.93,
+    "availableInStock": 195781014
+  },
+  {
+    "type": "type: -1628951506",
+    "lenght": 0.7067926319205919,
+    "power": "LIGHT",
+    "material": "material: 990828277",
+    "numberOfPieces": 4,
+    "dateOfManufacture": "Apr 2, 2016 9:48:46 AM",
+    "price": 200.84,
+    "availableInStock": 1014169169
+  },
+  {
+    "type": "type: 476365176",
+    "lenght": 0.5836386150190818,
+    "power": "ULTRA_HEAVY",
+    "material": "material: 2006250280",
+    "numberOfPieces": 1,
+    "dateOfManufacture": "Oct 30, 2016 9:48:46 AM",
+    "price": 343.46,
+    "availableInStock": -805088384
+  },
+  {
+    "type": "type: 1402504657",
+    "lenght": 0.9915387061184426,
+    "power": "ULTRA_HEAVY",
+    "material": "material: -358478865",
+    "numberOfPieces": 3,
+    "dateOfManufacture": "Oct 4, 2016 9:48:46 AM",
+    "price": 493.37,
+    "availableInStock": 1424909994
+  },
+  {
+    "type": "type: 2112414493",
+    "lenght": 0.03956330360398941,
+    "power": "HEAVY",
+    "material": "material: -37452677",
+    "numberOfPieces": 4,
+    "dateOfManufacture": "Jun 26, 2016 9:48:46 AM",
+    "price": 405.45,
+    "availableInStock": 1191842224
+  },
+  {
+    "type": "type: -991052009",
+    "lenght": 0.3913685868332206,
+    "power": "MEDIUM",
+    "material": "material: 766241823",
+    "numberOfPieces": 2,
+    "dateOfManufacture": "Aug 6, 2016 9:48:46 AM",
+    "price": 353.66,
+    "availableInStock": 1631134193
+  }
+]
