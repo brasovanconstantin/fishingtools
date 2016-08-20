@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -164,7 +163,7 @@ public class ExcelFileService implements FileService {
 					rod.setLenght((double) getCellValue(nextCell));
 					break;
 				case 2:
-					Power power = getPower(getCellValue(nextCell));
+					Power power = Power.getPower(getCellValue(nextCell));
 					rod.setPower(power);
 					break;
 				case 3:
@@ -203,17 +202,7 @@ public class ExcelFileService implements FileService {
 
 	}
 
-	private Power getPower(Object cellValue) {
-
-		Power[] array = Power.values();
-		for (int i = 0; i < array.length; i++) {
-			if (cellValue.toString().equals(array[i].toString())) {
-				return array[i];
-			}
-		}
-		
-		return null;
-	}
+	
 
 	private Object getCellValue(Cell nextCell) {
 		switch (nextCell.getCellType()) {
