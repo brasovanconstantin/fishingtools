@@ -97,4 +97,9 @@ public class FishingRodsDaoImpl implements FishingRodsDao {
 		return rodList;
 	}
 
+	public void delete(long row) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
