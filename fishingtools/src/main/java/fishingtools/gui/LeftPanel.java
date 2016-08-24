@@ -1,6 +1,8 @@
 package fishingtools.gui;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -124,7 +126,7 @@ public class LeftPanel extends JPanel {
 		super();
 		this.tableFrame = tableFrame;
 
-		setPreferredSize(new Dimension(200, 500));
+		setPreferredSize(new Dimension(200, 480));
 		setBorder(BorderFactory.createTitledBorder(tittle));
 		// BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -142,6 +144,26 @@ public class LeftPanel extends JPanel {
 		clearButton = new JButton("Clear ");
 		add(clearButton);
 
+		clearButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				clearTextFields(getParent());
+
+			}
+
+		});
+
+	}
+
+	private void clearTextFields(Container container) {
+		for (Component c : container.getComponents()) {
+			if (c instanceof JTextField) {
+				JTextField f = (JTextField) c;
+				f.setText("");
+			} else if (c instanceof Container)
+				clearTextFields((Container) c);
+		}
 	}
 
 	private void addSaveButton() {
@@ -155,6 +177,7 @@ public class LeftPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 
 				boolean valid = validateFields();
+				double format;
 
 				if (valid) {
 					FishingRods rod = new FishingRods();
@@ -168,7 +191,8 @@ public class LeftPanel extends JPanel {
 						date = DateUtil.getDateFromString(dateOfManufactureTextField.getText().trim());
 						rod.setDateOfManufacture(date);
 					} catch (ParseException e) {
-						JOptionPane.showMessageDialog(null, "Wrong date format", "Atention", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, new String[] { "Wrong date format", "dd/MM/yyyy" },
+								"Atention", JOptionPane.ERROR_MESSAGE);
 						e.printStackTrace();
 					}
 
@@ -178,13 +202,7 @@ public class LeftPanel extends JPanel {
 					SqlFishingRodsTableModel model = (SqlFishingRodsTableModel) RightPanel.table.getModel();
 					model.addRod(rod);
 
-					typeTextField.setText("");
-					lengthTextField.setText("");
-					materialTextField.setText("");
-					numberOfPiecesTextField.setText("");
-					dateOfManufactureTextField.setText("");
-					priceTextField.setText("");
-					availableInStockTextField.setText("");
+					clearTextFields(getParent());
 				} else {
 					// TODO display error
 				}
@@ -194,35 +212,36 @@ public class LeftPanel extends JPanel {
 			private boolean validateFields() {
 
 				boolean valid = true;
+				Color redColor = Color.RED;
 
 				if (typeTextField.getText().trim().isEmpty()) {
 					valid = false;
 					// change background color
-					typeTextField.setBackground(Color.RED);
+					typeTextField.setBorder(BorderFactory.createLineBorder(redColor));
 				}
 				if (lengthTextField.getText().trim().isEmpty()) {
 					valid = false;
-					lengthTextField.setBackground(Color.RED);
+					lengthTextField.setBorder(BorderFactory.createLineBorder(redColor));
 				}
 				if (materialTextField.getText().trim().isEmpty()) {
 					valid = false;
-					materialTextField.setBackground(Color.RED);
+					materialTextField.setBorder(BorderFactory.createLineBorder(redColor));
 				}
 				if (numberOfPiecesTextField.getText().trim().isEmpty()) {
 					valid = false;
-					numberOfPiecesTextField.setBackground(Color.RED);
+					numberOfPiecesTextField.setBorder(BorderFactory.createLineBorder(redColor));
 				}
 				if (dateOfManufactureTextField.getText().trim().isEmpty()) {
 					valid = false;
-					dateOfManufactureTextField.setBackground(Color.RED);
+					dateOfManufactureTextField.setBorder(BorderFactory.createLineBorder(redColor));
 				}
 				if (priceTextField.getText().trim().isEmpty()) {
 					valid = false;
-					priceTextField.setBackground(Color.RED);
+					priceTextField.setBorder(BorderFactory.createLineBorder(redColor));
 				}
 				if (availableInStockTextField.getText().trim().isEmpty()) {
 					valid = false;
-					availableInStockTextField.setBackground(Color.RED);
+					availableInStockTextField.setBorder(BorderFactory.createLineBorder(redColor));
 				}
 				/*
 				 * if (typeTextField.getText().trim().isEmpty() ||
@@ -244,8 +263,8 @@ public class LeftPanel extends JPanel {
 	private void addJTextFields() {
 
 		add(new JLabel("Type:"));
-		typeTextField = new JTextField("sample@type");
-		typeTextField = new JTextField("0.00");
+		typeTextField = new JTextField("sampletype");
+		typeTextField.setForeground(Color.BLUE);
 		typeTextField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -264,6 +283,7 @@ public class LeftPanel extends JPanel {
 
 		add(new JLabel("Length:"));
 		lengthTextField = new JTextField("0.00");
+		lengthTextField.setForeground(Color.BLUE);
 		lengthTextField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -285,7 +305,8 @@ public class LeftPanel extends JPanel {
 		add(powerComboBox);
 
 		add(new JLabel("Material:"));
-		materialTextField = new JTextField("sample@material");
+		materialTextField = new JTextField("samplematerial");
+		materialTextField.setForeground(Color.BLUE);
 		materialTextField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -304,6 +325,7 @@ public class LeftPanel extends JPanel {
 
 		add(new JLabel("Number Of Pieces:"));
 		numberOfPiecesTextField = new JTextField("0");
+		numberOfPiecesTextField.setForeground(Color.BLUE);
 		numberOfPiecesTextField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -322,6 +344,7 @@ public class LeftPanel extends JPanel {
 
 		add(new JLabel("Date of Manufacture:"));
 		dateOfManufactureTextField = new JTextField("03/05/2016");
+		dateOfManufactureTextField.setForeground(Color.BLUE);
 		dateOfManufactureTextField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -339,7 +362,8 @@ public class LeftPanel extends JPanel {
 		add(dateOfManufactureTextField);
 
 		add(new JLabel("Price:"));
-		priceTextField = new JTextField("300.00");
+		priceTextField = new JTextField("0.00");
+		priceTextField.setForeground(Color.BLUE);
 		priceTextField.addFocusListener(new FocusListener() {
 
 			@Override
@@ -357,7 +381,8 @@ public class LeftPanel extends JPanel {
 		add(priceTextField);
 
 		add(new JLabel("Available in Stock:"));
-		availableInStockTextField = new JTextField("20");
+		availableInStockTextField = new JTextField("0");
+		availableInStockTextField.setForeground(Color.BLUE);
 		availableInStockTextField.addFocusListener(new FocusListener() {
 
 			@Override

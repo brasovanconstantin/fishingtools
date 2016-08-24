@@ -88,7 +88,7 @@ public class SqlFishingRodsTableModel extends AbstractTableModel {
 		return rods.get(row);
 	}
 
-	public List<FishingRods> getUsers() {
+	public List<FishingRods> getRods() {
 		return rods;
 	}
 }

@@ -8,6 +8,8 @@ public class Main {
 		
 		TableFrame frame = new TableFrame();
 		frame.start();
+		frame.requestFocusInWindow();
+		
 	}
 
 }

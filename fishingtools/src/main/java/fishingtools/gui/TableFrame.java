@@ -29,14 +29,16 @@ public class TableFrame extends JFrame {
 	public void start() {
 
 		initGUI();
+		requestFocusInWindow();
 		setVisible(true);
 	}
 
 	private void initGUI() {
 		setTitle("Fishing Rods");
-		setMinimumSize(new Dimension(1300, 500));
+		setMinimumSize(new Dimension(1300, 480));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	
 
 		mainPanel = new JPanel(new BorderLayout());
 		

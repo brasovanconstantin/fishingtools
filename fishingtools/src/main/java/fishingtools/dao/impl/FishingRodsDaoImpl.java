@@ -97,9 +97,66 @@ public class FishingRodsDaoImpl implements FishingRodsDao {
 		return rodList;
 	}
 
-	public void delete(long row) {
-		// TODO Auto-generated method stub
-		
+	public boolean update(FishingRods newRod, Long id) {
+		try {
+			conn = ConnectionUtil.getConnection();
+			String sql = "UPDATE `fishingrods` SET `type`=?, `length`=?, `power`=?, `material`, `number of pieces`=?, `date of manufacture`=?, `price`=?, `availble in stock`=?  WHERE `id`=?;";
+			// obtin PreparedStatement de la connection
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, newRod.getType());
+			ps.setDouble(2, newRod.getLenght());
+			ps.setString(3, (String) newRod.getPower());
+			ps.setString(4, newRod.getMaterial());
+			ps.setInt(5, newRod.getNumberOfPieces());
+			ps.setDate(6, (Date) newRod.getDateOfManufacture());
+			ps.setDouble(7, newRod.getPrice());
+			ps.setInt(8, newRod.getAvailableInStock());
+
+			ps.setLong(9, id);
+
+			int affectedRows = ps.executeUpdate();
+			log.info(String.format("Update object, total affected rows: %d", affectedRows));
+			return true;
+		} catch (SQLException e) {
+			// e.printStackTrace();
+			log.severe(String.format("Exception: %s", e.getMessage()));
+		}
+		return false;
+	}
+
+	public boolean delete(Long id) {
+		try {
+			conn = ConnectionUtil.getConnection();
+			String sql = "DELETE FROM `fishingrods` WHERE `id`= ? ;";
+			// obtin PreparedStatement de la connection
+			ps = conn.prepareStatement(sql);
+			ps.setLong(1, id);
+			ps.executeUpdate();
+			log.info(String.format("Object with id : %d was deleted", id));
+			return true;
+		} catch (SQLException e) {
+			log.severe(String.format("Exception: %s", e.getMessage()));
+		}
+		return false;
+
+	}
+
+	@Override
+	public long count() {
+		try {
+			conn = ConnectionUtil.getConnection();
+			String sql = "SELECT COUNT(*) FROM `fishingrods`";
+			ps = conn.prepareStatement(sql);
+			ResultSet set = ps.executeQuery();
+			if (set != null) {
+				if (set.next()) {
+					return set.getLong(1);
+				}
+			}
+		} catch (SQLException e) {
+			log.severe(String.format("Exception: %s", e.getMessage()));
+		}
+		return 0;
 	}
 
 }

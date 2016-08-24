@@ -10,4 +10,10 @@ public interface FishingRodsDao {
 
 	List<FishingRods> findAll();
 
+	boolean update(FishingRods newRod, Long id);
+
+	boolean delete(Long id);
+
+	long count();
+
 }
