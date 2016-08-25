@@ -75,8 +75,10 @@ public class SqlFishingRodsTableModel extends AbstractTableModel {
 	}
 
 	public void removeRod(int row){
+		FishingRods rod = rods.get(row);
+		
 		// delete user from database
-		rodDao.delete((long) row);
+		rodDao.delete(rod.getId());
 		// get updated list of users from database
 		rods = rodDao.findAll();
 		// fire an event to table that content of the model was changed

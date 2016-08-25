@@ -14,17 +14,26 @@ import javax.swing.border.EtchedBorder;
 import fishingtools.domain.FishingRods;
 import fishingtools.gui.model.SqlFishingRodsTableModel;
 import fishingtools.services.FileService;
+import fishingtools.services.impl.ExcelFileService;
 import fishingtools.services.impl.JsonFileService;
 import fishingtools.services.impl.XmlFileService;
 import fishingtools.util.FileUtil;
-
-
 
 public class BottomPanel extends JPanel {
 
 	public static JButton deleteButton;
 	public static JButton exportToJsonButton;
 	public static JButton exportToXMLButton;
+	public static JButton exportToExcelButton;
+
+	public static JButton getExportToExcelButton() {
+		return exportToExcelButton;
+	}
+
+	public static void setExportToExcelButton(JButton exportToExcelButton) {
+		BottomPanel.exportToExcelButton = exportToExcelButton;
+	}
+
 	private TableFrame tableFrame;
 	private FileService fileService;
 
@@ -67,36 +76,37 @@ public class BottomPanel extends JPanel {
 
 		addExportToXMLButton();
 
+		addExportToExcelButton();
+
 	}
 
-	private void addExportToXMLButton() {
+	private void addExportToExcelButton() {
 
-		exportToXMLButton = new JButton("Export to XML");
-		add(exportToXMLButton);
-		
-		exportToXMLButton.addActionListener(new ActionListener() {
-			
+		exportToExcelButton = new JButton("Export to Excel");
+		add(exportToExcelButton);
+
+		exportToExcelButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SqlFishingRodsTableModel model = (SqlFishingRodsTableModel) RightPanel.table.getModel();
-				exportToXML(model.getRods());
-				
+				exportToExcel(model.getRods());
+
 			}
 
-			private void exportToXML(List<FishingRods> rods) {
-				fileService = new XmlFileService();
+			private void exportToExcel(List<FishingRods> rods) {
+				fileService = new ExcelFileService();
 				try {
 					// obtain file where to save
 					String path = FileUtil.showSaveFileDialog();
 					// check if a file was selected
-					if (path == null) return;
-					fileService.saveAll(rods, path.concat(".xml"));
-					JOptionPane.showMessageDialog(null, 
-							"Users was successfully exported", "Export to XML", 
+					if (path == null)
+						return;
+					fileService.saveAll(rods, path.concat(".xls"));
+					JOptionPane.showMessageDialog(null, "Rod was successfully exported", "Export to Excel",
 							JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, 
-							"Error on export to XML", "Export to XML", 
+					JOptionPane.showMessageDialog(null, "Error on export to Excel", "Export to Excel",
 							JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 				}
@@ -106,13 +116,49 @@ public class BottomPanel extends JPanel {
 
 	}
 
+	private void addExportToXMLButton() {
+
+		exportToXMLButton = new JButton("Export to XML");
+		add(exportToXMLButton);
+
+		exportToXMLButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SqlFishingRodsTableModel model = (SqlFishingRodsTableModel) RightPanel.table.getModel();
+				exportToXML(model.getRods());
+
+			}
+
+			private void exportToXML(List<FishingRods> rods) {
+				fileService = new XmlFileService();
+				try {
+					// obtain file where to save
+					String path = FileUtil.showSaveFileDialog();
+					// check if a file was selected
+					if (path == null)
+						return;
+					fileService.saveAll(rods, path.concat(".xml"));
+					JOptionPane.showMessageDialog(null, "Rod was successfully exported", "Export to XML",
+							JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Error on export to XML", "Export to XML",
+							JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
+
+			}
+		});
+
+	}
+
 	private void addExportToJsonButton() {
 
 		exportToJsonButton = new JButton("Export to JSON");
 		add(exportToJsonButton);
-		
+
 		exportToJsonButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SqlFishingRodsTableModel model = (SqlFishingRodsTableModel) RightPanel.table.getModel();
@@ -122,23 +168,21 @@ public class BottomPanel extends JPanel {
 			private void exportToJSON(List<FishingRods> rods) {
 				fileService = new JsonFileService();
 				try {
-					
+
 					String path = FileUtil.showSaveFileDialog();
-					if (path == null) return;
+					if (path == null)
+						return;
 					fileService.saveAll(rods, path.concat(".json"));
-						JOptionPane.showMessageDialog(null, 
-							"Users was successfully exported", "Export to JSON", 
+					JOptionPane.showMessageDialog(null, "Rod was successfully exported", "Export to JSON",
 							JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, 
-							"Error on export to JSON", "Export to JSON", 
+					JOptionPane.showMessageDialog(null, "Error on export to JSON", "Export to JSON",
 							JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();
 				}
-				
+
 			}
 
-			
 		});
 
 	}
@@ -154,13 +198,13 @@ public class BottomPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				int row = RightPanel.table.getSelectedRow();
-				
-				if (row >= 1) {
-					((SqlFishingRodsTableModel)RightPanel.table.getModel()).removeRod(row);
-				} else {
+				if (row == -1) {
 					JOptionPane.showMessageDialog(null, "Please select a row from the table!", "No selected row",
 							JOptionPane.WARNING_MESSAGE);
+					return;
 				}
+
+				((SqlFishingRodsTableModel) RightPanel.table.getModel()).removeRod(row);
 
 			}
 		});

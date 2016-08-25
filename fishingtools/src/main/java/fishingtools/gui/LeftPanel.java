@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -24,7 +28,9 @@ import javax.swing.JTextField;
 
 import fishingtools.domain.FishingRods;
 import fishingtools.domain.Power;
+import fishingtools.gui.listeners.MyFocusListener;
 import fishingtools.gui.model.SqlFishingRodsTableModel;
+import fishingtools.util.Constants;
 import fishingtools.util.DateUtil;
 
 public class LeftPanel extends JPanel {
@@ -41,6 +47,8 @@ public class LeftPanel extends JPanel {
 	public static JButton clearButton;
 	private String tittle = "INPUT FORM";
 	private TableFrame tableFrame;
+	private List<JTextField> invalidTextFields = new LinkedList<>();
+	private FocusListener myListener = new MyFocusListener();
 
 	public static JTextField getTypeTextField() {
 		return typeTextField;
@@ -170,6 +178,8 @@ public class LeftPanel extends JPanel {
 
 		saveButton = new JButton(" Save ");
 		add(saveButton);
+		
+		saveButton.setToolTipText("Click Save to send data to the table");
 
 		saveButton.addActionListener(new ActionListener() {
 
@@ -212,37 +222,51 @@ public class LeftPanel extends JPanel {
 			private boolean validateFields() {
 
 				boolean valid = true;
-				Color redColor = Color.RED;
+			
 
 				if (typeTextField.getText().trim().isEmpty()) {
 					valid = false;
 					// change background color
-					typeTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					//typeTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					invalidTextFields.add(typeTextField);
 				}
 				if (lengthTextField.getText().trim().isEmpty()) {
 					valid = false;
-					lengthTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					//lengthTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					invalidTextFields.add(lengthTextField);
 				}
 				if (materialTextField.getText().trim().isEmpty()) {
 					valid = false;
-					materialTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					// materialTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					invalidTextFields.add(materialTextField);
 				}
 				if (numberOfPiecesTextField.getText().trim().isEmpty()) {
 					valid = false;
-					numberOfPiecesTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					// numberOfPiecesTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					invalidTextFields.add(numberOfPiecesTextField);
 				}
 				if (dateOfManufactureTextField.getText().trim().isEmpty()) {
 					valid = false;
-					dateOfManufactureTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					// dateOfManufactureTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					invalidTextFields.add(dateOfManufactureTextField);
 				}
 				if (priceTextField.getText().trim().isEmpty()) {
 					valid = false;
-					priceTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					// priceTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					invalidTextFields.add(priceTextField);
 				}
 				if (availableInStockTextField.getText().trim().isEmpty()) {
 					valid = false;
-					availableInStockTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					// availableInStockTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					invalidTextFields.add(availableInStockTextField);
 				}
+				
+				for (JTextField jTextField : invalidTextFields) {
+					jTextField.setBorder(Constants.ERROR_BORDER);
+					
+				}
+				
+				invalidTextFields.get(0).requestFocus();
 				/*
 				 * if (typeTextField.getText().trim().isEmpty() ||
 				 * (lengthTextField.getText().trim().isEmpty()) ||
@@ -264,139 +288,56 @@ public class LeftPanel extends JPanel {
 
 		add(new JLabel("Type:"));
 		typeTextField = new JTextField("sampletype");
+		typeTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) typeTextField.getPreferredSize().getHeight()));
 		typeTextField.setForeground(Color.BLUE);
-		typeTextField.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				typeTextField.setText("");
-
-			}
-		});
+		typeTextField.addFocusListener(myListener);
 		add(typeTextField);
 
 		add(new JLabel("Length:"));
 		lengthTextField = new JTextField("0.00");
+		lengthTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) lengthTextField.getPreferredSize().getHeight()));
 		lengthTextField.setForeground(Color.BLUE);
-		lengthTextField.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				lengthTextField.setText("");
-
-			}
-		});
+		lengthTextField.addFocusListener(myListener);
 		add(lengthTextField);
 
 		add(new JLabel("Power:"));
 		powerComboBox = createPowerComboBox();
+		powerComboBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) powerComboBox.getPreferredSize().getHeight()));
 		add(powerComboBox);
 
 		add(new JLabel("Material:"));
 		materialTextField = new JTextField("samplematerial");
+		materialTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) materialTextField.getPreferredSize().getHeight()));
 		materialTextField.setForeground(Color.BLUE);
-		materialTextField.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				materialTextField.setText("");
-
-			}
-		});
+		materialTextField.addFocusListener(myListener);
 		add(materialTextField);
 
 		add(new JLabel("Number Of Pieces:"));
 		numberOfPiecesTextField = new JTextField("0");
+		numberOfPiecesTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) numberOfPiecesTextField.getPreferredSize().getHeight()));
 		numberOfPiecesTextField.setForeground(Color.BLUE);
-		numberOfPiecesTextField.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				numberOfPiecesTextField.setText("");
-
-			}
-		});
+		numberOfPiecesTextField.addFocusListener(myListener);
 		add(numberOfPiecesTextField);
 
 		add(new JLabel("Date of Manufacture:"));
 		dateOfManufactureTextField = new JTextField("03/05/2016");
+		dateOfManufactureTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) dateOfManufactureTextField.getPreferredSize().getHeight()));
 		dateOfManufactureTextField.setForeground(Color.BLUE);
-		dateOfManufactureTextField.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				dateOfManufactureTextField.setText("");
-
-			}
-		});
+		dateOfManufactureTextField.addFocusListener(myListener);
 		add(dateOfManufactureTextField);
 
 		add(new JLabel("Price:"));
 		priceTextField = new JTextField("0.00");
+		priceTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) priceTextField.getPreferredSize().getHeight()));
 		priceTextField.setForeground(Color.BLUE);
-		priceTextField.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				priceTextField.setText("");
-
-			}
-		});
+		priceTextField.addFocusListener(myListener);
 		add(priceTextField);
 
 		add(new JLabel("Available in Stock:"));
 		availableInStockTextField = new JTextField("0");
+		availableInStockTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) availableInStockTextField.getPreferredSize().getHeight()));
 		availableInStockTextField.setForeground(Color.BLUE);
-		availableInStockTextField.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				availableInStockTextField.setText("");
-
-			}
-		});
+		availableInStockTextField.addFocusListener(myListener);
 		add(availableInStockTextField);
 
 	}

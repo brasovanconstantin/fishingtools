@@ -11,7 +11,7 @@ import fishingtools.dao.FishingRodsDao;
 import fishingtools.domain.FishingRods;
 import fishingtools.domain.Power;
 import fishingtools.util.DemoData;
-import mavendemo.domain.User;
+
 
 
 
@@ -44,7 +44,8 @@ public class FishingRodsDaoImplTest {
 		newRod.setLenght(2.4);
 		newRod.setPower(Power.HEAVY);
 		newRod.setMaterial("new_material");
-		newRod.setDateOfManufacture(Date.class.newInstance());
+		newRod.setNumberOfPieces(3);
+		newRod.setDateOfManufacture(new Date());
 		newRod.setPrice(300.0);
 		newRod.setAvailableInStock(10);
 		

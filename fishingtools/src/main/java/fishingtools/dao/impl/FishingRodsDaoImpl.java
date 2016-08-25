@@ -100,15 +100,15 @@ public class FishingRodsDaoImpl implements FishingRodsDao {
 	public boolean update(FishingRods newRod, Long id) {
 		try {
 			conn = ConnectionUtil.getConnection();
-			String sql = "UPDATE `fishingrods` SET `type`=?, `length`=?, `power`=?, `material`, `number of pieces`=?, `date of manufacture`=?, `price`=?, `availble in stock`=?  WHERE `id`=?;";
+			String sql = "UPDATE `fishingrods` SET `type`=?, `length`=?, `power`=?, `material`=?, `number of pieces`=?, `date of manufacture`=?, `price`=?, `availble in stock`=?  WHERE `id`=?;";
 			// obtin PreparedStatement de la connection
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, newRod.getType());
 			ps.setDouble(2, newRod.getLenght());
-			ps.setString(3, (String) newRod.getPower());
+			ps.setString(3, newRod.getPower().toString());
 			ps.setString(4, newRod.getMaterial());
 			ps.setInt(5, newRod.getNumberOfPieces());
-			ps.setDate(6, (Date) newRod.getDateOfManufacture());
+			ps.setDate(6, new Date(newRod.getDateOfManufacture().getTime()));
 			ps.setDouble(7, newRod.getPrice());
 			ps.setInt(8, newRod.getAvailableInStock());
 
