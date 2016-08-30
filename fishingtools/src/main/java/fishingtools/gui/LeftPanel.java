@@ -151,6 +151,7 @@ public class LeftPanel extends JPanel {
 
 		clearButton = new JButton("Clear ");
 		add(clearButton);
+		clearButton.setToolTipText("Click to clear all fields");
 
 		clearButton.addActionListener(new ActionListener() {
 
@@ -179,7 +180,7 @@ public class LeftPanel extends JPanel {
 		saveButton = new JButton(" Save ");
 		add(saveButton);
 		
-		saveButton.setToolTipText("Click Save to send data to the table");
+		saveButton.setToolTipText("Click to save the data");
 
 		saveButton.addActionListener(new ActionListener() {
 
@@ -187,7 +188,7 @@ public class LeftPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 
 				boolean valid = validateFields();
-				double format;
+				
 
 				if (valid) {
 					FishingRods rod = new FishingRods();
@@ -214,7 +215,8 @@ public class LeftPanel extends JPanel {
 
 					clearTextFields(getParent());
 				} else {
-					// TODO display error
+					JOptionPane.showMessageDialog(null, new String[] { "All fields must be completed"},
+							"Atention", JOptionPane.WARNING_MESSAGE);
 				}
 
 			}

@@ -84,6 +84,8 @@ public class BottomPanel extends JPanel {
 
 		exportToExcelButton = new JButton("Export to Excel");
 		add(exportToExcelButton);
+		
+		exportToExcelButton.setToolTipText("Click to export the table to excel");
 
 		exportToExcelButton.addActionListener(new ActionListener() {
 
@@ -120,6 +122,8 @@ public class BottomPanel extends JPanel {
 
 		exportToXMLButton = new JButton("Export to XML");
 		add(exportToXMLButton);
+		
+		exportToXMLButton.setToolTipText("Click to export the table to a XML file");
 
 		exportToXMLButton.addActionListener(new ActionListener() {
 
@@ -156,6 +160,8 @@ public class BottomPanel extends JPanel {
 
 		exportToJsonButton = new JButton("Export to JSON");
 		add(exportToJsonButton);
+		
+		exportToJsonButton.setToolTipText("Click to export the table to a text file");
 
 		exportToJsonButton.addActionListener(new ActionListener() {
 
@@ -191,6 +197,8 @@ public class BottomPanel extends JPanel {
 
 		deleteButton = new JButton("Delete");
 		add(deleteButton);
+		
+		deleteButton.setToolTipText("Click to delete the selected row");
 
 		deleteButton.addActionListener(new ActionListener() {
 
