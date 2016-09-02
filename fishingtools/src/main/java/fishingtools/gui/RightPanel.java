@@ -46,8 +46,8 @@ public class RightPanel extends JPanel {
 		
 		table = new JTable(model);
 		table.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
-		JScrollPane scrollPane = new JScrollPane(table);
 		
+		JScrollPane scrollPane = new JScrollPane(table);		
 		add(scrollPane, BorderLayout.CENTER);
 
 	}
