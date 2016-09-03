@@ -15,5 +15,7 @@ public interface FishingRodsDao {
 	boolean delete(Long id);
 
 	long count();
+	
+	public List<FishingRods> findBy(String column, String text);
 
 }

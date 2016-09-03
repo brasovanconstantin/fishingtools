@@ -61,5 +61,13 @@ public class FishingRodsDaoImplTest {
 		boolean result = dao.delete(ROD_ID);
 		Assert.assertTrue(result);
 	}
+	
+	@Test
+	public void testFindBy() {
+		List<FishingRods> allrods = dao.findBy("type", "31");
+		Assert.assertNotNull(allrods);
+		Assert.assertFalse(allrods.isEmpty());
+		Assert.assertTrue(allrods.size()>0);
+	}
 		
 }

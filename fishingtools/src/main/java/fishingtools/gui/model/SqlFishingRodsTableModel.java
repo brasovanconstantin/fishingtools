@@ -85,7 +85,7 @@ public class SqlFishingRodsTableModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 
-	// method that will return a user from our table model by row.
+	
 	public FishingRods getRod(int row) {
 		return rods.get(row);
 	}
@@ -93,4 +93,11 @@ public class SqlFishingRodsTableModel extends AbstractTableModel {
 	public List<FishingRods> getRods() {
 		return rods;
 	}
+
+	public void setRods(List<FishingRods> rods) {
+		this.rods = rods;
+		fireTableDataChanged();
+	}
+	
+	
 }

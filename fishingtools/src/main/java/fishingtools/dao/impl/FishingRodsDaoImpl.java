@@ -159,4 +159,53 @@ public class FishingRodsDaoImpl implements FishingRodsDao {
 		return 0;
 	}
 
+	public List<FishingRods> findBy(String column, String text) {
+		
+
+		List<FishingRods> rodList = new ArrayList<>();
+
+		try {
+			conn = ConnectionUtil.getConnection();
+			String sql = "SELECT * FROM `fishingrods` WHERE `"+column+"` LIKE '%"+text+"%' ;";
+			ps = conn.prepareStatement(sql);
+			System.out.println(sql);
+			ResultSet set = ps.executeQuery();
+
+			while (set.next()) {
+				long id = set.getInt("id");
+				String type = set.getString("type");
+				double length = set.getDouble("length");
+				String powerValue = set.getString("power");
+				Power power = Power.getPower(powerValue);
+				String material = set.getString("material");
+				int numberOfPieces = set.getInt("number of pieces");
+				Date dateOfManufacture = set.getDate("date of manufacture");
+				double price = set.getDouble("price");
+				int availableInStock = set.getInt("availble in stock");
+
+				FishingRods rod = new FishingRods();
+				rod.setId(id);
+				rod.setType(type);
+				rod.setLenght(length);
+				rod.setPower(power);
+				rod.setMaterial(material);
+				rod.setNumberOfPieces(numberOfPieces);
+				rod.setDateOfManufacture(dateOfManufacture);
+				rod.setPrice(price);
+				rod.setAvailableInStock(availableInStock);
+				rodList.add(rod);
+				log.info(String.format("Added new user to list: %s", rod.toString()));
+			}
+
+		} catch (SQLException e) {
+
+			// e.printStackTrace();
+			log.severe(String.format("Fatal error: %s", e.getMessage()));
+		}
+		log.info(String.format("Retrieved from database %d users", rodList.size()));
+		System.out.println("roooods===="+rodList);
+		return rodList;
+		
+	}
+
 }
