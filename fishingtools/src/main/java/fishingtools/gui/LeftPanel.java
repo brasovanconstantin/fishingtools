@@ -9,7 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,11 +22,15 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import fishingtools.domain.FishingRods;
 import fishingtools.domain.Power;
@@ -36,7 +42,7 @@ import fishingtools.util.DateUtil;
 public class LeftPanel extends JPanel {
 
 	public static JTextField typeTextField;
-	public static JTextField lengthTextField;
+	public static JFormattedTextField lengthTextField;
 	public static JComboBox<Power> powerComboBox;
 	public static JTextField materialTextField;
 	public static JTextField numberOfPiecesTextField;
@@ -48,6 +54,7 @@ public class LeftPanel extends JPanel {
 	private String tittle = "INPUT FORM";
 	private TableFrame tableFrame;
 	private List<JTextField> invalidTextFields = new LinkedList<>();
+	private List<String> errorMessages = new ArrayList<>();
 	private FocusListener myListener = new MyFocusListener();
 
 	public static JTextField getTypeTextField() {
@@ -62,7 +69,7 @@ public class LeftPanel extends JPanel {
 		return lengthTextField;
 	}
 
-	public static void setLengthTextField(JTextField lengthTextField) {
+	public static void setLengthTextField(JFormattedTextField lengthTextField) {
 		LeftPanel.lengthTextField = lengthTextField;
 	}
 
@@ -202,8 +209,8 @@ public class LeftPanel extends JPanel {
 						date = DateUtil.getDateFromString(dateOfManufactureTextField.getText().trim());
 						rod.setDateOfManufacture(date);
 					} catch (ParseException e) {
-						JOptionPane.showMessageDialog(null, new String[] { "Wrong date format", "dd/MM/yyyy" },
-								"Atention", JOptionPane.ERROR_MESSAGE);
+						//JOptionPane.showMessageDialog(null, new String[] { "Wrong date format", "dd/MM/yyyy" },
+								//"Atention", JOptionPane.ERROR_MESSAGE);
 						e.printStackTrace();
 					}
 
@@ -215,7 +222,9 @@ public class LeftPanel extends JPanel {
 
 					clearTextFields(getParent());
 				} else {
-					JOptionPane.showMessageDialog(null, new String[] { "All fields must be completed"},
+					String[] errors = errorMessages.toArray(new String[errorMessages.size()]);
+					System.out.println(errorMessages);
+					JOptionPane.showMessageDialog(null, errors,
 							"Atention", JOptionPane.WARNING_MESSAGE);
 				}
 
@@ -232,10 +241,16 @@ public class LeftPanel extends JPanel {
 					//typeTextField.setBorder(BorderFactory.createLineBorder(redColor));
 					invalidTextFields.add(typeTextField);
 				}
+				
 				if (lengthTextField.getText().trim().isEmpty()) {
 					valid = false;
 					//lengthTextField.setBorder(BorderFactory.createLineBorder(redColor));
 					invalidTextFields.add(lengthTextField);
+					try {
+					 Double.parseDouble(lengthTextField.getText());
+					} catch(Exception e) {
+						errorMessages.add("invalid number format for field Length");
+					}
 				}
 				if (materialTextField.getText().trim().isEmpty()) {
 					valid = false;
@@ -246,6 +261,11 @@ public class LeftPanel extends JPanel {
 					valid = false;
 					// numberOfPiecesTextField.setBorder(BorderFactory.createLineBorder(redColor));
 					invalidTextFields.add(numberOfPiecesTextField);
+					try {
+						 Integer.parseInt(numberOfPiecesTextField.getText());
+						} catch(Exception e) {
+							errorMessages.add("invalid number format for field Number of Pieces");
+						}
 				}
 				if (dateOfManufactureTextField.getText().trim().isEmpty()) {
 					valid = false;
@@ -287,7 +307,6 @@ public class LeftPanel extends JPanel {
 	}
 
 	private void addJTextFields() {
-
 		add(new JLabel("Type:"));
 		typeTextField = new JTextField("sampletype");
 		typeTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) typeTextField.getPreferredSize().getHeight()));
@@ -296,7 +315,10 @@ public class LeftPanel extends JPanel {
 		add(typeTextField);
 
 		add(new JLabel("Length:"));
-		lengthTextField = new JTextField("0.00");
+		NumberFormat format = NumberFormat.getNumberInstance(); 
+		format.setMaximumIntegerDigits(5);
+		lengthTextField = new JFormattedTextField(format);
+		lengthTextField.setText("0.00");
 		lengthTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) lengthTextField.getPreferredSize().getHeight()));
 		lengthTextField.setForeground(Color.BLUE);
 		lengthTextField.addFocusListener(myListener);
