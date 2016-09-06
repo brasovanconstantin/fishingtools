@@ -296,7 +296,8 @@ public class LeftPanel extends JPanel {
 					errorMessages.add(EMPTY_FIELD_ERROR);
 				} else {
 					try {
-						Integer.parseInt(priceTextField.getText());
+						System.out.println(priceTextField.getText());
+						Double.parseDouble(priceTextField.getText());
 					} catch (Exception e) {
 						valid = false;
 						errorMessages.add("invalid number format for field Price");
