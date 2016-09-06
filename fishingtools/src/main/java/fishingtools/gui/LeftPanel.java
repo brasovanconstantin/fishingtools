@@ -13,9 +13,12 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -42,7 +45,7 @@ import fishingtools.util.DateUtil;
 public class LeftPanel extends JPanel {
 
 	public static JTextField typeTextField;
-	public static JFormattedTextField lengthTextField;
+	public static JTextField lengthTextField;
 	public static JComboBox<Power> powerComboBox;
 	public static JTextField materialTextField;
 	public static JTextField numberOfPiecesTextField;
@@ -54,8 +57,9 @@ public class LeftPanel extends JPanel {
 	private String tittle = "INPUT FORM";
 	private TableFrame tableFrame;
 	private List<JTextField> invalidTextFields = new LinkedList<>();
-	private List<String> errorMessages = new ArrayList<>();
+	private Set<String> errorMessages = new LinkedHashSet<>();
 	private FocusListener myListener = new MyFocusListener();
+	private final String EMPTY_FIELD_ERROR = "All fields must be completed";
 
 	public static JTextField getTypeTextField() {
 		return typeTextField;
@@ -85,7 +89,7 @@ public class LeftPanel extends JPanel {
 		return numberOfPiecesTextField;
 	}
 
-	public static void setNumberOfPiecesTextField(JTextField numberOfPiecesTextField) {
+	public static void setNumberOfPiecesTextField(JFormattedTextField numberOfPiecesTextField) {
 		LeftPanel.numberOfPiecesTextField = numberOfPiecesTextField;
 	}
 
@@ -186,7 +190,7 @@ public class LeftPanel extends JPanel {
 
 		saveButton = new JButton(" Save ");
 		add(saveButton);
-		
+
 		saveButton.setToolTipText("Click to save the data");
 
 		saveButton.addActionListener(new ActionListener() {
@@ -195,7 +199,6 @@ public class LeftPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 
 				boolean valid = validateFields();
-				
 
 				if (valid) {
 					FishingRods rod = new FishingRods();
@@ -209,8 +212,9 @@ public class LeftPanel extends JPanel {
 						date = DateUtil.getDateFromString(dateOfManufactureTextField.getText().trim());
 						rod.setDateOfManufacture(date);
 					} catch (ParseException e) {
-						//JOptionPane.showMessageDialog(null, new String[] { "Wrong date format", "dd/MM/yyyy" },
-								//"Atention", JOptionPane.ERROR_MESSAGE);
+						// JOptionPane.showMessageDialog(null, new String[] {
+						// "Wrong date format", "dd/MM/yyyy" },
+						// "Atention", JOptionPane.ERROR_MESSAGE);
 						e.printStackTrace();
 					}
 
@@ -223,9 +227,12 @@ public class LeftPanel extends JPanel {
 					clearTextFields(getParent());
 				} else {
 					String[] errors = errorMessages.toArray(new String[errorMessages.size()]);
-					System.out.println(errorMessages);
-					JOptionPane.showMessageDialog(null, errors,
-							"Atention", JOptionPane.WARNING_MESSAGE);
+					invalidTextFields.forEach(object->{
+						object.setText("");
+					});
+					JOptionPane.showMessageDialog(null, errors, "Atention", JOptionPane.WARNING_MESSAGE);
+					errorMessages.clear();
+					invalidTextFields.clear();
 				}
 
 			}
@@ -233,23 +240,27 @@ public class LeftPanel extends JPanel {
 			private boolean validateFields() {
 
 				boolean valid = true;
-			
 
 				if (typeTextField.getText().trim().isEmpty()) {
 					valid = false;
 					// change background color
-					//typeTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					// typeTextField.setBorder(BorderFactory.createLineBorder(redColor));
 					invalidTextFields.add(typeTextField);
+					errorMessages.add(EMPTY_FIELD_ERROR);
 				}
-				
+
 				if (lengthTextField.getText().trim().isEmpty()) {
 					valid = false;
-					//lengthTextField.setBorder(BorderFactory.createLineBorder(redColor));
+					// lengthTextField.setBorder(BorderFactory.createLineBorder(redColor));
 					invalidTextFields.add(lengthTextField);
+					errorMessages.add(EMPTY_FIELD_ERROR);
+				} else {
 					try {
-					 Double.parseDouble(lengthTextField.getText());
-					} catch(Exception e) {
+						Double.parseDouble(lengthTextField.getText());
+					} catch (Exception e) {
+						valid = false;
 						errorMessages.add("invalid number format for field Length");
+						invalidTextFields.add(lengthTextField);
 					}
 				}
 				if (materialTextField.getText().trim().isEmpty()) {
@@ -261,11 +272,17 @@ public class LeftPanel extends JPanel {
 					valid = false;
 					// numberOfPiecesTextField.setBorder(BorderFactory.createLineBorder(redColor));
 					invalidTextFields.add(numberOfPiecesTextField);
+					errorMessages.add(EMPTY_FIELD_ERROR);
+
+				} else {
 					try {
-						 Integer.parseInt(numberOfPiecesTextField.getText());
-						} catch(Exception e) {
-							errorMessages.add("invalid number format for field Number of Pieces");
-						}
+						Integer.parseInt(numberOfPiecesTextField.getText());
+					} catch (Exception e) {
+						valid = false;
+						errorMessages.add("invalid number format for field Number of Pieces");
+						invalidTextFields.add(numberOfPiecesTextField);
+					}
+
 				}
 				if (dateOfManufactureTextField.getText().trim().isEmpty()) {
 					valid = false;
@@ -276,19 +293,40 @@ public class LeftPanel extends JPanel {
 					valid = false;
 					// priceTextField.setBorder(BorderFactory.createLineBorder(redColor));
 					invalidTextFields.add(priceTextField);
+					errorMessages.add(EMPTY_FIELD_ERROR);
+				} else {
+					try {
+						Integer.parseInt(priceTextField.getText());
+					} catch (Exception e) {
+						valid = false;
+						errorMessages.add("invalid number format for field Price");
+						invalidTextFields.add(priceTextField);
+					}
 				}
 				if (availableInStockTextField.getText().trim().isEmpty()) {
 					valid = false;
 					// availableInStockTextField.setBorder(BorderFactory.createLineBorder(redColor));
 					invalidTextFields.add(availableInStockTextField);
+					errorMessages.add(EMPTY_FIELD_ERROR);
+				} else {
+					try {
+						Integer.parseInt(availableInStockTextField.getText());
+					} catch (Exception e) {
+						valid = false;
+						errorMessages.add("invalid number format for field Available in Stock");
+						invalidTextFields.add(availableInStockTextField);
+					}
 				}
-				
+
 				for (JTextField jTextField : invalidTextFields) {
 					jTextField.setBorder(Constants.ERROR_BORDER);
-					
+
+				}
+
+				if (!invalidTextFields.isEmpty()) {
+					invalidTextFields.get(0).requestFocus();
 				}
 				
-				invalidTextFields.get(0).requestFocus();
 				/*
 				 * if (typeTextField.getText().trim().isEmpty() ||
 				 * (lengthTextField.getText().trim().isEmpty()) ||
@@ -307,59 +345,72 @@ public class LeftPanel extends JPanel {
 	}
 
 	private void addJTextFields() {
-		add(new JLabel("Type:"));
+		//add(new JLabel("Type:"));
 		typeTextField = new JTextField("sampletype");
-		typeTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) typeTextField.getPreferredSize().getHeight()));
+		typeTextField.setBorder(new TitledBorder("Type:"));
+		typeTextField
+				.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) typeTextField.getPreferredSize().getHeight()));
 		typeTextField.setForeground(Color.BLUE);
 		typeTextField.addFocusListener(myListener);
 		add(typeTextField);
 
-		add(new JLabel("Length:"));
-		NumberFormat format = NumberFormat.getNumberInstance(); 
-		format.setMaximumIntegerDigits(5);
-		lengthTextField = new JFormattedTextField(format);
-		lengthTextField.setText("0.00");
-		lengthTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) lengthTextField.getPreferredSize().getHeight()));
+		//add(new JLabel("Length:"));		
+		lengthTextField = new JTextField("0.00");
+		lengthTextField.setBorder(new TitledBorder("Length:"));
+		lengthTextField
+				.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) lengthTextField.getPreferredSize().getHeight()));
 		lengthTextField.setForeground(Color.BLUE);
 		lengthTextField.addFocusListener(myListener);
 		add(lengthTextField);
 
-		add(new JLabel("Power:"));
+		//add(new JLabel("Power:"));
 		powerComboBox = createPowerComboBox();
-		powerComboBox.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) powerComboBox.getPreferredSize().getHeight()));
+		powerComboBox.setBorder(new TitledBorder("Power:"));
+		powerComboBox
+				.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) powerComboBox.getPreferredSize().getHeight()));
 		add(powerComboBox);
 
-		add(new JLabel("Material:"));
+		//add(new JLabel("Material:"));
 		materialTextField = new JTextField("samplematerial");
-		materialTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) materialTextField.getPreferredSize().getHeight()));
+		materialTextField.setBorder(new TitledBorder("Material:"));
+		materialTextField.setMaximumSize(
+				new Dimension(Integer.MAX_VALUE, (int) materialTextField.getPreferredSize().getHeight()));
 		materialTextField.setForeground(Color.BLUE);
 		materialTextField.addFocusListener(myListener);
 		add(materialTextField);
 
-		add(new JLabel("Number Of Pieces:"));
-		numberOfPiecesTextField = new JTextField("0");
-		numberOfPiecesTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) numberOfPiecesTextField.getPreferredSize().getHeight()));
+		//add(new JLabel("Number Of Pieces:"));
+		numberOfPiecesTextField = new JFormattedTextField("0");
+		numberOfPiecesTextField.setBorder(new TitledBorder("Number Of Pieces:"));
+		numberOfPiecesTextField.setMaximumSize(
+				new Dimension(Integer.MAX_VALUE, (int) numberOfPiecesTextField.getPreferredSize().getHeight()));
 		numberOfPiecesTextField.setForeground(Color.BLUE);
 		numberOfPiecesTextField.addFocusListener(myListener);
 		add(numberOfPiecesTextField);
 
-		add(new JLabel("Date of Manufacture:"));
+		//add(new JLabel("Date of Manufacture:"));
 		dateOfManufactureTextField = new JTextField("03/05/2016");
-		dateOfManufactureTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) dateOfManufactureTextField.getPreferredSize().getHeight()));
+		dateOfManufactureTextField.setBorder(new TitledBorder("Date of Manufacture:"));
+		dateOfManufactureTextField.setMaximumSize(
+				new Dimension(Integer.MAX_VALUE, (int) dateOfManufactureTextField.getPreferredSize().getHeight()));
 		dateOfManufactureTextField.setForeground(Color.BLUE);
 		dateOfManufactureTextField.addFocusListener(myListener);
 		add(dateOfManufactureTextField);
 
-		add(new JLabel("Price:"));
+		//add(new JLabel("Price:"));
 		priceTextField = new JTextField("0.00");
-		priceTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) priceTextField.getPreferredSize().getHeight()));
+		priceTextField.setBorder(new TitledBorder("Price:"));
+		priceTextField
+				.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) priceTextField.getPreferredSize().getHeight()));
 		priceTextField.setForeground(Color.BLUE);
 		priceTextField.addFocusListener(myListener);
 		add(priceTextField);
 
-		add(new JLabel("Available in Stock:"));
+		//add(new JLabel("Available in Stock:"));
 		availableInStockTextField = new JTextField("0");
-		availableInStockTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) availableInStockTextField.getPreferredSize().getHeight()));
+		availableInStockTextField.setBorder(new TitledBorder("Available in Stock:"));
+		availableInStockTextField.setMaximumSize(
+				new Dimension(Integer.MAX_VALUE, (int) availableInStockTextField.getPreferredSize().getHeight()));
 		availableInStockTextField.setForeground(Color.BLUE);
 		availableInStockTextField.addFocusListener(myListener);
 		add(availableInStockTextField);
