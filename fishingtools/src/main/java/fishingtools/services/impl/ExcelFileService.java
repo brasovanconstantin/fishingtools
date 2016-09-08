@@ -100,6 +100,8 @@ public class ExcelFileService implements FileService {
 		workbook.write(fos);
 
 		workbook.close();
+		
+		fos.close();
 
 	}
 

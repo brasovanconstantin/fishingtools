@@ -4,6 +4,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import fishingtools.util.Constants;
 
@@ -20,7 +21,7 @@ public class MyFocusListener implements FocusListener {
 	public void focusLost(FocusEvent event) {
 		JTextField source = (JTextField) event.getSource();
 		if (!source.getText().isEmpty()) {
-			source.setBorder(Constants.DEFAULT_BORDER);
+			source.setBorder(new TitledBorder(Constants.DEFAULT_BORDER, source.getName()));
 		}
 		
 	}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,6 +61,7 @@ public class LeftPanel extends JPanel {
 	private Set<String> errorMessages = new LinkedHashSet<>();
 	private FocusListener myListener = new MyFocusListener();
 	private final String EMPTY_FIELD_ERROR = "All fields must be completed";
+	private JPanel buttonsPanel = new JPanel();
 
 	public static JTextField getTypeTextField() {
 		return typeTextField;
@@ -151,6 +153,10 @@ public class LeftPanel extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		addJTextFields();
+		add(buttonsPanel);
+		FlowLayout layout = new FlowLayout();
+		buttonsPanel.setLayout(layout);
+		layout.setHgap(25);
 		add(new JLabel(" "));
 		addSaveButton();
 		add(new JLabel(" "));
@@ -160,8 +166,9 @@ public class LeftPanel extends JPanel {
 
 	private void addClearButton() {
 
-		clearButton = new JButton("Clear ");
-		add(clearButton);
+		clearButton = new JButton("Clear");
+		// add(clearButton);
+		buttonsPanel.add(clearButton);
 		clearButton.setToolTipText("Click to clear all fields");
 
 		clearButton.addActionListener(new ActionListener() {
@@ -188,8 +195,9 @@ public class LeftPanel extends JPanel {
 
 	private void addSaveButton() {
 
-		saveButton = new JButton(" Save ");
-		add(saveButton);
+		saveButton = new JButton("Save");
+		buttonsPanel.add(saveButton);
+		// add(saveButton);
 
 		saveButton.setToolTipText("Click to save the data");
 
@@ -198,156 +206,19 @@ public class LeftPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				boolean valid = validateFields();
-
-				if (valid) {
-					FishingRods rod = new FishingRods();
-					rod.setType(typeTextField.getText().trim());
-					rod.setLenght(Double.parseDouble(lengthTextField.getText().trim()));
-					rod.setPower(Power.getPower(powerComboBox.getSelectedItem()));
-					rod.setMaterial(materialTextField.getText().trim());
-					rod.setNumberOfPieces(Integer.parseInt(numberOfPiecesTextField.getText().trim()));
-					Date date;
-					try {
-						date = DateUtil.getDateFromString(dateOfManufactureTextField.getText().trim());
-						rod.setDateOfManufacture(date);
-					} catch (ParseException e) {
-						// JOptionPane.showMessageDialog(null, new String[] {
-						// "Wrong date format", "dd/MM/yyyy" },
-						// "Atention", JOptionPane.ERROR_MESSAGE);
-						e.printStackTrace();
-					}
-
-					rod.setPrice(Double.parseDouble(priceTextField.getText().trim()));
-					rod.setAvailableInStock(Integer.parseInt(availableInStockTextField.getText().trim()));
-
-					SqlFishingRodsTableModel model = (SqlFishingRodsTableModel) RightPanel.table.getModel();
-					model.addRod(rod);
-
-					clearTextFields(getParent());
-				} else {
-					String[] errors = errorMessages.toArray(new String[errorMessages.size()]);
-					invalidTextFields.forEach(object->{
-						object.setText("");
-					});
-					JOptionPane.showMessageDialog(null, errors, "Atention", JOptionPane.WARNING_MESSAGE);
-					errorMessages.clear();
-					invalidTextFields.clear();
-				}
+				save();
 
 			}
 
-			private boolean validateFields() {
-
-				boolean valid = true;
-
-				if (typeTextField.getText().trim().isEmpty()) {
-					valid = false;
-					// change background color
-					// typeTextField.setBorder(BorderFactory.createLineBorder(redColor));
-					invalidTextFields.add(typeTextField);
-					errorMessages.add(EMPTY_FIELD_ERROR);
-				}
-
-				if (lengthTextField.getText().trim().isEmpty()) {
-					valid = false;
-					// lengthTextField.setBorder(BorderFactory.createLineBorder(redColor));
-					invalidTextFields.add(lengthTextField);
-					errorMessages.add(EMPTY_FIELD_ERROR);
-				} else {
-					try {
-						Double.parseDouble(lengthTextField.getText());
-					} catch (Exception e) {
-						valid = false;
-						errorMessages.add("invalid number format for field Length");
-						invalidTextFields.add(lengthTextField);
-					}
-				}
-				if (materialTextField.getText().trim().isEmpty()) {
-					valid = false;
-					// materialTextField.setBorder(BorderFactory.createLineBorder(redColor));
-					invalidTextFields.add(materialTextField);
-				}
-				if (numberOfPiecesTextField.getText().trim().isEmpty()) {
-					valid = false;
-					// numberOfPiecesTextField.setBorder(BorderFactory.createLineBorder(redColor));
-					invalidTextFields.add(numberOfPiecesTextField);
-					errorMessages.add(EMPTY_FIELD_ERROR);
-
-				} else {
-					try {
-						Integer.parseInt(numberOfPiecesTextField.getText());
-					} catch (Exception e) {
-						valid = false;
-						errorMessages.add("invalid number format for field Number of Pieces");
-						invalidTextFields.add(numberOfPiecesTextField);
-					}
-
-				}
-				if (dateOfManufactureTextField.getText().trim().isEmpty()) {
-					valid = false;
-					// dateOfManufactureTextField.setBorder(BorderFactory.createLineBorder(redColor));
-					invalidTextFields.add(dateOfManufactureTextField);
-				}
-				if (priceTextField.getText().trim().isEmpty()) {
-					valid = false;
-					// priceTextField.setBorder(BorderFactory.createLineBorder(redColor));
-					invalidTextFields.add(priceTextField);
-					errorMessages.add(EMPTY_FIELD_ERROR);
-				} else {
-					try {
-						System.out.println(priceTextField.getText());
-						Double.parseDouble(priceTextField.getText());
-					} catch (Exception e) {
-						valid = false;
-						errorMessages.add("invalid number format for field Price");
-						invalidTextFields.add(priceTextField);
-					}
-				}
-				if (availableInStockTextField.getText().trim().isEmpty()) {
-					valid = false;
-					// availableInStockTextField.setBorder(BorderFactory.createLineBorder(redColor));
-					invalidTextFields.add(availableInStockTextField);
-					errorMessages.add(EMPTY_FIELD_ERROR);
-				} else {
-					try {
-						Integer.parseInt(availableInStockTextField.getText());
-					} catch (Exception e) {
-						valid = false;
-						errorMessages.add("invalid number format for field Available in Stock");
-						invalidTextFields.add(availableInStockTextField);
-					}
-				}
-
-				for (JTextField jTextField : invalidTextFields) {
-					jTextField.setBorder(Constants.ERROR_BORDER);
-
-				}
-
-				if (!invalidTextFields.isEmpty()) {
-					invalidTextFields.get(0).requestFocus();
-				}
-				
-				/*
-				 * if (typeTextField.getText().trim().isEmpty() ||
-				 * (lengthTextField.getText().trim().isEmpty()) ||
-				 * (materialTextField.getText().trim().isEmpty()) ||
-				 * (numberOfPiecesTextField.getText().trim().isEmpty()) ||
-				 * (dateOfManufactureTextField.getText().trim().isEmpty()) ||
-				 * (priceTextField.getText().trim().isEmpty()) ||
-				 * (availableInStockTextField.getText().trim().isEmpty())) {
-				 * return false; }
-				 */
-
-				return valid;
-			}
+			
 		});
 
 	}
 
 	private void addJTextFields() {
-		//add(new JLabel("Type:"));
+		// add(new JLabel("Type:"));
 		typeTextField = new JTextField("sampletype");
+		typeTextField.setName("Type:");
 		typeTextField.setBorder(new TitledBorder("Type:"));
 		typeTextField
 				.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) typeTextField.getPreferredSize().getHeight()));
@@ -355,8 +226,9 @@ public class LeftPanel extends JPanel {
 		typeTextField.addFocusListener(myListener);
 		add(typeTextField);
 
-		//add(new JLabel("Length:"));		
+		// add(new JLabel("Length:"));
 		lengthTextField = new JTextField("0.00");
+		lengthTextField.setName("Length:");
 		lengthTextField.setBorder(new TitledBorder("Length:"));
 		lengthTextField
 				.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) lengthTextField.getPreferredSize().getHeight()));
@@ -364,15 +236,16 @@ public class LeftPanel extends JPanel {
 		lengthTextField.addFocusListener(myListener);
 		add(lengthTextField);
 
-		//add(new JLabel("Power:"));
+		// add(new JLabel("Power:"));
 		powerComboBox = createPowerComboBox();
 		powerComboBox.setBorder(new TitledBorder("Power:"));
 		powerComboBox
 				.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) powerComboBox.getPreferredSize().getHeight()));
 		add(powerComboBox);
 
-		//add(new JLabel("Material:"));
+		// add(new JLabel("Material:"));
 		materialTextField = new JTextField("samplematerial");
+		materialTextField.setName("Material:");
 		materialTextField.setBorder(new TitledBorder("Material:"));
 		materialTextField.setMaximumSize(
 				new Dimension(Integer.MAX_VALUE, (int) materialTextField.getPreferredSize().getHeight()));
@@ -380,8 +253,9 @@ public class LeftPanel extends JPanel {
 		materialTextField.addFocusListener(myListener);
 		add(materialTextField);
 
-		//add(new JLabel("Number Of Pieces:"));
+		// add(new JLabel("Number Of Pieces:"));
 		numberOfPiecesTextField = new JFormattedTextField("0");
+		numberOfPiecesTextField.setName("Number Of Pieces:");
 		numberOfPiecesTextField.setBorder(new TitledBorder("Number Of Pieces:"));
 		numberOfPiecesTextField.setMaximumSize(
 				new Dimension(Integer.MAX_VALUE, (int) numberOfPiecesTextField.getPreferredSize().getHeight()));
@@ -389,8 +263,9 @@ public class LeftPanel extends JPanel {
 		numberOfPiecesTextField.addFocusListener(myListener);
 		add(numberOfPiecesTextField);
 
-		//add(new JLabel("Date of Manufacture:"));
+		// add(new JLabel("Date of Manufacture:"));
 		dateOfManufactureTextField = new JTextField("03/05/2016");
+		dateOfManufactureTextField.setName("Date of Manufacture:");
 		dateOfManufactureTextField.setBorder(new TitledBorder("Date of Manufacture:"));
 		dateOfManufactureTextField.setMaximumSize(
 				new Dimension(Integer.MAX_VALUE, (int) dateOfManufactureTextField.getPreferredSize().getHeight()));
@@ -398,8 +273,9 @@ public class LeftPanel extends JPanel {
 		dateOfManufactureTextField.addFocusListener(myListener);
 		add(dateOfManufactureTextField);
 
-		//add(new JLabel("Price:"));
+		// add(new JLabel("Price:"));
 		priceTextField = new JTextField("0.00");
+		priceTextField.setName("Price:");
 		priceTextField.setBorder(new TitledBorder("Price:"));
 		priceTextField
 				.setMaximumSize(new Dimension(Integer.MAX_VALUE, (int) priceTextField.getPreferredSize().getHeight()));
@@ -407,8 +283,9 @@ public class LeftPanel extends JPanel {
 		priceTextField.addFocusListener(myListener);
 		add(priceTextField);
 
-		//add(new JLabel("Available in Stock:"));
+		// add(new JLabel("Available in Stock:"));
 		availableInStockTextField = new JTextField("0");
+		availableInStockTextField.setName("Available in Stock:");
 		availableInStockTextField.setBorder(new TitledBorder("Available in Stock:"));
 		availableInStockTextField.setMaximumSize(
 				new Dimension(Integer.MAX_VALUE, (int) availableInStockTextField.getPreferredSize().getHeight()));
@@ -429,6 +306,151 @@ public class LeftPanel extends JPanel {
 		powerComboBox = new JComboBox<>(model);
 
 		return powerComboBox;
+	}
+	
+	boolean validateFields() {
+
+		boolean valid = true;
+
+		if (typeTextField.getText().trim().isEmpty()) {
+			valid = false;
+			// change background color
+			// typeTextField.setBorder(BorderFactory.createLineBorder(redColor));
+			invalidTextFields.add(typeTextField);
+			errorMessages.add(EMPTY_FIELD_ERROR);
+		}
+
+		if (lengthTextField.getText().trim().isEmpty()) {
+			valid = false;
+			// lengthTextField.setBorder(BorderFactory.createLineBorder(redColor));
+			invalidTextFields.add(lengthTextField);
+			errorMessages.add(EMPTY_FIELD_ERROR);
+		} else {
+			try {
+				Double.parseDouble(lengthTextField.getText());
+			} catch (Exception e) {
+				valid = false;
+				errorMessages.add("invalid number format for field Length");
+				invalidTextFields.add(lengthTextField);
+			}
+		}
+		if (materialTextField.getText().trim().isEmpty()) {
+			valid = false;
+			// materialTextField.setBorder(BorderFactory.createLineBorder(redColor));
+			invalidTextFields.add(materialTextField);
+		}
+		if (numberOfPiecesTextField.getText().trim().isEmpty()) {
+			valid = false;
+			// numberOfPiecesTextField.setBorder(BorderFactory.createLineBorder(redColor));
+			invalidTextFields.add(numberOfPiecesTextField);
+			errorMessages.add(EMPTY_FIELD_ERROR);
+
+		} else {
+			try {
+				Integer.parseInt(numberOfPiecesTextField.getText());
+			} catch (Exception e) {
+				valid = false;
+				errorMessages.add("invalid number format for field Number of Pieces");
+				invalidTextFields.add(numberOfPiecesTextField);
+			}
+
+		}
+		if (dateOfManufactureTextField.getText().trim().isEmpty()) {
+			valid = false;
+			// dateOfManufactureTextField.setBorder(BorderFactory.createLineBorder(redColor));
+			invalidTextFields.add(dateOfManufactureTextField);
+		}
+		if (priceTextField.getText().trim().isEmpty()) {
+			valid = false;
+			// priceTextField.setBorder(BorderFactory.createLineBorder(redColor));
+			invalidTextFields.add(priceTextField);
+			errorMessages.add(EMPTY_FIELD_ERROR);
+		} else {
+			try {
+				System.out.println(priceTextField.getText());
+				Double.parseDouble(priceTextField.getText());
+			} catch (Exception e) {
+				valid = false;
+				errorMessages.add("invalid number format for field Price");
+				invalidTextFields.add(priceTextField);
+			}
+		}
+		if (availableInStockTextField.getText().trim().isEmpty()) {
+			valid = false;
+			// availableInStockTextField.setBorder(BorderFactory.createLineBorder(redColor));
+			invalidTextFields.add(availableInStockTextField);
+			errorMessages.add(EMPTY_FIELD_ERROR);
+		} else {
+			try {
+				Integer.parseInt(availableInStockTextField.getText());
+			} catch (Exception e) {
+				valid = false;
+				errorMessages.add("invalid number format for field Available in Stock");
+				invalidTextFields.add(availableInStockTextField);
+			}
+		}
+
+		for (JTextField jTextField : invalidTextFields) {
+			jTextField.setBorder(new TitledBorder(Constants.ERROR_BORDER, jTextField.getName()));
+
+		}
+
+		if (!invalidTextFields.isEmpty()) {
+			invalidTextFields.get(0).requestFocus();
+		}
+
+		/*
+		 * if (typeTextField.getText().trim().isEmpty() ||
+		 * (lengthTextField.getText().trim().isEmpty()) ||
+		 * (materialTextField.getText().trim().isEmpty()) ||
+		 * (numberOfPiecesTextField.getText().trim().isEmpty()) ||
+		 * (dateOfManufactureTextField.getText().trim().isEmpty()) ||
+		 * (priceTextField.getText().trim().isEmpty()) ||
+		 * (availableInStockTextField.getText().trim().isEmpty())) {
+		 * return false; }
+		 */
+
+		return valid;
+	}
+
+	public void save() {
+		boolean valid = validateFields();
+
+		if (valid) {
+			FishingRods rod = new FishingRods();
+			rod.setType(typeTextField.getText().trim());
+			rod.setLenght(Double.parseDouble(lengthTextField.getText().trim()));
+			rod.setPower(Power.getPower(powerComboBox.getSelectedItem()));
+			rod.setMaterial(materialTextField.getText().trim());
+			rod.setNumberOfPieces(Integer.parseInt(numberOfPiecesTextField.getText().trim()));
+			Date date;
+			try {
+				date = DateUtil.getDateFromString(dateOfManufactureTextField.getText().trim());
+				rod.setDateOfManufacture(date);
+			} catch (ParseException e) {
+				// JOptionPane.showMessageDialog(null, new String[] {
+				// "Wrong date format", "dd/MM/yyyy" },
+				// "Atention", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+
+			rod.setPrice(Double.parseDouble(priceTextField.getText().trim()));
+			rod.setAvailableInStock(Integer.parseInt(availableInStockTextField.getText().trim()));
+
+			SqlFishingRodsTableModel model = (SqlFishingRodsTableModel) RightPanel.table.getModel();
+			model.addRod(rod);
+
+			clearTextFields(getParent());
+		} else {
+			String[] errors = errorMessages.toArray(new String[errorMessages.size()]);
+			invalidTextFields.forEach(object -> {
+				object.setText("");
+			});
+			JOptionPane.showMessageDialog(null, errors, "Atention", JOptionPane.WARNING_MESSAGE);
+			errorMessages.clear();
+			invalidTextFields.clear();
+		}
+
 	}
 
 }
