@@ -1,23 +1,30 @@
 package fishingtools.gui;
 
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.border.Border;
 
 
 
@@ -151,10 +158,47 @@ public class TableFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame aboutFrame = new JFrame("About");
-				aboutFrame.setSize(400,400);
+				aboutFrame.setSize(300,200);
 				aboutFrame.setLocationRelativeTo(null);
-				aboutFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+				aboutFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				aboutFrame.setVisible(true);
+				
+				BorderLayout l = new BorderLayout(10, 10);
+				JPanel aboutPanel = new JPanel(l);
+				aboutPanel.setBorder( BorderFactory.createEmptyBorder(10, 10, 10, 10));
+				aboutPanel.setBackground(Color.WHITE);
+				JPanel imagePanel = new JPanel(new BorderLayout());			
+				JPanel centerImagePanel = new JPanel();
+				centerImagePanel.setPreferredSize(new Dimension(100, 200));
+				imagePanel.add(centerImagePanel, BorderLayout.CENTER);
+				
+				JLabel imageLabel = new JLabel();
+				imageLabel.setSize(100,100);
+				BufferedImage img = null;
+				try {
+					img = ImageIO.read(getClass().getResourceAsStream("fishingrods.png"));
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+
+				Image dimg = img.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), 0);
+				imageLabel.setIcon(new ImageIcon(dimg));
+				imagePanel.add(imageLabel);
+				aboutPanel.add(imagePanel, BorderLayout.WEST);
+				
+				JTextArea textArea = new JTextArea();
+				textArea.setLineWrap(true);
+				textArea.setText("\nApplication for warehouse\n\nVersion: 1.1\n\nAll rights reserved");
+				textArea.setEditable(false);
+				
+				aboutPanel.add(textArea, BorderLayout.CENTER);	 			
+				imagePanel.setBackground(Color.WHITE);
+				imagePanel.setOpaque(true);
+				
+				getContentPane().add(aboutPanel);
+				aboutFrame.add(aboutPanel);
+				
+				
 				
 				
 			}

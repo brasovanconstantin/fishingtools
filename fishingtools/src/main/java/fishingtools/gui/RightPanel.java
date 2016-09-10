@@ -45,7 +45,7 @@ public class RightPanel extends JPanel {
 		SqlFishingRodsTableModel model = new SqlFishingRodsTableModel();
 		
 		table = new JTable(model);
-		table.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		table.setSelectionMode(DefaultListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		JScrollPane scrollPane = new JScrollPane(table);		
 		add(scrollPane, BorderLayout.CENTER);

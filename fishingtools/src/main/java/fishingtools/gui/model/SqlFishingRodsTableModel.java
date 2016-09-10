@@ -74,15 +74,27 @@ public class SqlFishingRodsTableModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 
+	@Deprecated
 	public void removeRod(int row){
 		FishingRods rod = rods.get(row);
-		
 		// delete user from database
 		rodDao.delete(rod.getId());
 		// get updated list of users from database
 		rods = rodDao.findAll();
 		// fire an event to table that content of the model was changed
 		fireTableDataChanged();
+	}
+	
+	public void removeRods(int[] rows){
+		List<FishingRods> rodsToRemove = new ArrayList<>();
+		for (int row : rows) {
+			rodsToRemove.add(rods.get(row));
+		}
+		for (FishingRods fishingRods : rodsToRemove) {
+			rodDao.delete(fishingRods.getId());
+			rods = rodDao.findAll();
+			fireTableDataChanged();
+		}
 	}
 
 	

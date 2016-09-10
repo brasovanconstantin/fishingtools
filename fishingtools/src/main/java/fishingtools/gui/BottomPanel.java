@@ -84,14 +84,14 @@ public class BottomPanel extends JPanel {
 
 		exportToExcelButton = new JButton("Export to Excel");
 		add(exportToExcelButton);
-		
+
 		exportToExcelButton.setToolTipText("Click to export the table to excel");
 
 		exportToExcelButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				exportToExcel();
 			}
 		});
@@ -102,7 +102,7 @@ public class BottomPanel extends JPanel {
 
 		exportToXMLButton = new JButton("Export to XML");
 		add(exportToXMLButton);
-		
+
 		exportToXMLButton.setToolTipText("Click to export the table to a XML file");
 
 		exportToXMLButton.addActionListener(new ActionListener() {
@@ -120,7 +120,7 @@ public class BottomPanel extends JPanel {
 
 		exportToJsonButton = new JButton("Export to JSON");
 		add(exportToJsonButton);
-		
+
 		exportToJsonButton.setToolTipText("Click to export the table to a text file");
 
 		exportToJsonButton.addActionListener(new ActionListener() {
@@ -139,7 +139,7 @@ public class BottomPanel extends JPanel {
 
 		deleteButton = new JButton("Delete");
 		add(deleteButton);
-		
+
 		deleteButton.setToolTipText("Click to delete the selected row");
 
 		deleteButton.addActionListener(new ActionListener() {
@@ -147,15 +147,14 @@ public class BottomPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				int row = RightPanel.table.getSelectedRow();
-				if (row == -1) {
+				int rows[] = RightPanel.table.getSelectedRows();
+				if (rows.length == 0) {
 					JOptionPane.showMessageDialog(null, "Please select a row from the table!", "No selected row",
 							JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-
-				((SqlFishingRodsTableModel) RightPanel.table.getModel()).removeRod(row);
-
+	
+				((SqlFishingRodsTableModel) RightPanel.table.getModel()).removeRods(rows);
 			}
 		});
 
@@ -183,7 +182,7 @@ public class BottomPanel extends JPanel {
 					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void exportToJson() {
@@ -202,11 +201,10 @@ public class BottomPanel extends JPanel {
 			JOptionPane.showMessageDialog(null, "Rod was successfully exported", "Export to JSON",
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error on export to JSON", "Export to JSON",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error on export to JSON", "Export to JSON", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void exportToXML() {
@@ -227,11 +225,10 @@ public class BottomPanel extends JPanel {
 			JOptionPane.showMessageDialog(null, "Rod was successfully exported", "Export to XML",
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error on export to XML", "Export to XML",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error on export to XML", "Export to XML", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
