@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
+import org.apache.poi.ss.usermodel.Row;
+
 import fishingtools.domain.FishingRods;
 import fishingtools.gui.model.SqlFishingRodsTableModel;
 import fishingtools.services.FileService;
@@ -73,7 +75,7 @@ public class BottomPanel extends JPanel {
 
 		addDeleteButton();
 		
-		addEditButton();
+		
 
 		addExportToJsonButton();
 
@@ -81,32 +83,6 @@ public class BottomPanel extends JPanel {
 
 		addExportToExcelButton();
 
-	}
-
-	private void addEditButton() {
-		
-		editButton = new JButton("Edit");
-		add(editButton);
-		
-		editButton.setToolTipText("Click to edit the selected row");
-		
-		editButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int rows[] = RightPanel.table.getSelectedRows();
-				if (rows.length == 0) {
-					JOptionPane.showMessageDialog(null, "Please select a row from the table!", "No selected row",
-							JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-	
-				//((SqlFishingRodsTableModel) RightPanel.table.getModel()).removeRods(rows);
-			}
-				
-		
-		});
-		
 	}
 
 	private void addExportToExcelButton() {

@@ -359,6 +359,7 @@ public class LeftPanel extends JPanel {
 			valid = false;
 			// dateOfManufactureTextField.setBorder(BorderFactory.createLineBorder(redColor));
 			invalidTextFields.add(dateOfManufactureTextField);
+			errorMessages.add(EMPTY_FIELD_ERROR);
 		}
 		if (priceTextField.getText().trim().isEmpty()) {
 			valid = false;
@@ -428,10 +429,10 @@ public class LeftPanel extends JPanel {
 				date = DateUtil.getDateFromString(dateOfManufactureTextField.getText().trim());
 				rod.setDateOfManufacture(date);
 			} catch (ParseException e) {
-				// JOptionPane.showMessageDialog(null, new String[] {
-				// "Wrong date format", "dd/MM/yyyy" },
-				// "Atention", JOptionPane.ERROR_MESSAGE);
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, new String[] {
+				"Wrong date format", "dd/MM/yyyy" },
+				"Atention", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 
 			rod.setPrice(Double.parseDouble(priceTextField.getText().trim()));
