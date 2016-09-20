@@ -25,6 +25,7 @@ public class BottomPanel extends JPanel {
 	public static JButton exportToJsonButton;
 	public static JButton exportToXMLButton;
 	public static JButton exportToExcelButton;
+	public static JButton editButton;
 
 	public static JButton getExportToExcelButton() {
 		return exportToExcelButton;
@@ -71,6 +72,8 @@ public class BottomPanel extends JPanel {
 		setLayout(layout);
 
 		addDeleteButton();
+		
+		addEditButton();
 
 		addExportToJsonButton();
 
@@ -78,6 +81,32 @@ public class BottomPanel extends JPanel {
 
 		addExportToExcelButton();
 
+	}
+
+	private void addEditButton() {
+		
+		editButton = new JButton("Edit");
+		add(editButton);
+		
+		editButton.setToolTipText("Click to edit the selected row");
+		
+		editButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rows[] = RightPanel.table.getSelectedRows();
+				if (rows.length == 0) {
+					JOptionPane.showMessageDialog(null, "Please select a row from the table!", "No selected row",
+							JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+	
+				//((SqlFishingRodsTableModel) RightPanel.table.getModel()).removeRods(rows);
+			}
+				
+		
+		});
+		
 	}
 
 	private void addExportToExcelButton() {

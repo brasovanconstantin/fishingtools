@@ -73,9 +73,11 @@ public class SearchPanel extends JPanel {
 
 		searchButton = new JButton("Search");
 		searchButton.setIcon(new ImageIcon(dimg));
+		searchButton.setToolTipText("Click to search");
 		add(searchButton);
 		
 		resetButton = new JButton("Reset");
+		resetButton.setToolTipText("Click to reset the text field");
 		add(resetButton);
 		
 		searchResultLabel = new JLabel("");

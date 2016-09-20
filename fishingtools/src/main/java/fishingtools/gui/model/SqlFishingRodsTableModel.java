@@ -60,7 +60,8 @@ public class SqlFishingRodsTableModel extends AbstractTableModel {
 
 		return "no data";
 
-	}
+	}	
+	 
 
 	@Override
 	public String getColumnName(int column) {
@@ -95,7 +96,7 @@ public class SqlFishingRodsTableModel extends AbstractTableModel {
 			rods = rodDao.findAll();
 			fireTableDataChanged();
 		}
-	}
+	}	
 
 	
 	public FishingRods getRod(int row) {

@@ -203,7 +203,6 @@ public class FishingRodsDaoImpl implements FishingRodsDao {
 			log.severe(String.format("Fatal error: %s", e.getMessage()));
 		}
 		log.info(String.format("Retrieved from database %d users", rodList.size()));
-		System.out.println("roooods===="+rodList);
 		return rodList;
 		
 	}
